@@ -1,16 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: iream
-  Date: 25. 3. 17.
-  Time: 오전 11:33
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<head>
+    <title>영화추천</title>
+</head>
+<body>
+    <p><%= request.getAttribute("movies")%></p>
+
+</body>
 </html>
