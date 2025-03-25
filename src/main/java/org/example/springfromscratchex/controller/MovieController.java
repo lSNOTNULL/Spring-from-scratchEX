@@ -2,6 +2,7 @@ package org.example.springfromscratchex.controller;
 
 import org.example.springfromscratchex.model.dto.MovieDTO;
 import org.example.springfromscratchex.model.dto.MovieInfoDTO;
+import org.example.springfromscratchex.service.GeminiService;
 import org.example.springfromscratchex.service.MovieService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +17,11 @@ import java.util.List;
 @RequestMapping("/")
 public class MovieController {
     final MovieService movieService;
+    final GeminiService geminiService;
 
-    public MovieController(MovieService movieService) {
+    public MovieController(MovieService movieService, GeminiService geminiService) {
         this.movieService = movieService;
+        this.geminiService = geminiService;
     }
 
 
@@ -28,6 +31,10 @@ public class MovieController {
         List<MovieInfoDTO> movies = movieService.getMovieInfo();
         // getMovieInfo 안에 기존의 getMovies 결과값도 담겨있으므로 최종적으로 Info정보까지 추가로 출력하게 된다.
         model.addAttribute("movies", movies);
+
+        String recommendation = movieService.generatePrompt(movies);
+        model.addAttribute("recommendation", recommendation);
+
         return "index";
     }
 }

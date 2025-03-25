@@ -1,7 +1,7 @@
 package org.example.springfromscratchex.service;
 
+import org.apache.http.HttpException;
 import org.example.springfromscratchex.model.dto.*;
-import org.example.springfromscratchex.model.repository.ImageRepository;
 import org.example.springfromscratchex.model.repository.MovieRepository;
 import org.springframework.stereotype.Service;
 
@@ -84,5 +84,17 @@ public class MovieService {
        // 기존의 movie 값 + info값을 함께 리턴
     }
 
+    // 영화 제목만 추출
+        public static List<String> getMovieTitles(List<MovieInfoDTO> movies) {
+            // 영화 제목만 받아 프롬프트의 인자값으로 넣어줄 수 있도록 구현
+            return movies.stream().map(movie -> movie.movie().name()).toList();
+        }
+        // 영화 제목 리스트를 toString하여 prompt에 삽입
+        public String generatePrompt(List<MovieInfoDTO> movies) throws HttpException, IOException {
+            List<String> recommendation = getMovieTitles(movies);
+            System.out.println(recommendation.toString());
+            return GeminiService.callGemini("%s, 앞의 내용을 바탕으로 영화를 추천하고 근거 작성".formatted(recommendation.toString()));
+
+        }
 
 }
